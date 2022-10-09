@@ -1,0 +1,10 @@
+<ul class="list-group">
+    {{#each books}}
+    <li class="list-group-item">
+        Book Name: {{this.book_name}} <br>
+        <img src={{this.cover_image}} width="200" height="200"> <br>
+        Author: {{this.author_name}}<br>
+        ISBN: {{this.isbn}}
+    </li>
+    {{/each}}
+</ul>
