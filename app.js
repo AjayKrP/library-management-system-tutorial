@@ -1,3 +1,4 @@
+require("dotenv").config(); // load env file
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -5,7 +6,6 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const expHbs = require('express3-handlebars');
 var bodyParser = require('body-parser')
-const bookRoute = require('./routes/book');
 var indexRouter = require('./routes/index');
 const mongoose = require('mongoose');
 const async = require("async");
@@ -32,11 +32,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({extended: false}))
 
 // parse application/json
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 
 
 app.use('/', indexRouter);
-app.use('/book', bookRoute);
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
     next(createError(404));

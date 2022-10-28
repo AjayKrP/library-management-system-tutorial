@@ -13,7 +13,7 @@ module.exports = {
     },
     addBook: async (body, next) => {
         try {
-            const book = await dbHelper.create(Model, req.body, next);
+            const book = await dbHelper.create(Model, body, next);
             return book;
         } catch (e) {
             console.log(e.toString());

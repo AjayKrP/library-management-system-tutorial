@@ -1,7 +1,6 @@
 module.exports = {
     findOne: async (Model, filter, options = {}, next) => {
-        
-        return await Model.find(filter, options);
+        return await Model.findOne(filter, options);
     },
     findAll: async (Model, filter = {}, options = {}, next) => {
         return Model.find(filter, options);
