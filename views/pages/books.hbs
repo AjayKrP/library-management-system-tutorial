@@ -1,10 +1,17 @@
-<ul class="list-group">
+<div class="row">
     {{#each books}}
-    <li class="list-group-item">
-        Book Name: {{this.book_name}} <br>
-        <img src={{this.cover_image}} width="200" height="200"> <br>
-        Author: {{this.author_name}}<br>
-        ISBN: {{this.isbn}}
-    </li>
+    <div class="col col-sm-3 book-item">
+        <form method="post" action="/book/purchase/{{this._id}}">
+            <div class="book-body">
+                Book Name: {{this.book_name}} <br>
+                <img src={{this.cover_image}} width="200" height="200"> <br>
+                Author: {{this.author_name}}<br>
+                ISBN: {{this.isbn}}
+            </div>
+            <div class="book-footer">
+                <button type="submit" class="btn btn-info">Purchase</button>
+            </div>
+        </form>
+    </div>
     {{/each}}
-</ul>
+</div>

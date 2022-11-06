@@ -13,7 +13,16 @@ module.exports = {
     },
     addBook: async (body, next) => {
         try {
-            const book = await dbHelper.create(Model, body, next);
+            const book = await dbHelper.create(Book, body, next);
+            return book;
+        } catch (e) {
+            console.log(e.toString());
+            next(e);
+        }
+    },
+    findBookById: async (bookId, next) => {
+        try {
+            const book = await dbHelper.findOne(Book, {_id: bookId}, {}, next);
             return book;
         } catch (e) {
             console.log(e.toString());

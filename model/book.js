@@ -7,7 +7,9 @@ const book = new Schema({
     author_name: { type: String, required: true },
     isbn: { type: String, required: true },
     genres: { type: String, required: true },
-    publisher: { type: String, required: true }
+    publisher: { type: String, required: true },
+    quantity: { type: Number, default: 100 },
+    price: { type: Number, default: 200 }
 });
 
 module.exports = mongoose.model('book', book);
