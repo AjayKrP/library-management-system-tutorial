@@ -6,6 +6,6 @@ const borrower = new Schema({
     bookId: { type: Schema.Types.ObjectId, ref: 'book', required: true },
     purchaseDate: { type: Date, default: Date.now },
     active: { type: Boolean, default: true }
-});
+}, { timestamps: true });
 
 module.exports = mongoose.model('Borrower', borrower);

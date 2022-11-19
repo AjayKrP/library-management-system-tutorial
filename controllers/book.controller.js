@@ -3,6 +3,7 @@ const { bookService, fineService, borrowerService, returnService } = require("..
 module.exports = {
     displayBooks: async (req, res, next) => {
         const books = await bookService.getAllBooks(next);
+        console.log(res.locals)
         res.render("pages/books", { books });
     },
     addBookForm: function (req, res, next) {
@@ -30,10 +31,10 @@ module.exports = {
         const { bookId } = req.params;
         const userId = req.userId;
         const alreadyPurchased = await borrowerService.findPurchaseBookById(userId, bookId, next);
-        if (alreadyPurchased && alreadyPurchased?.actve) {
+        if (alreadyPurchased && alreadyPurchased?.active) {
             // then show error
             res.locals.message = "User has already purchased this book";
-            res.redirect("/book");
+            return res.redirect("/book");
         }
 
         const book = await bookService.findBookById(bookId, next);
@@ -57,23 +58,24 @@ module.exports = {
         const userId = req.userId;
         const { bookId } = req.params;
         const purchasedBook = await borrowerService.findPurchaseBookById(userId, bookId, next);
-        if (purchasedBook && !purchasedBook?.actve) {
+        console.log('purchasedBook', purchasedBook)
+        if (purchasedBook && !purchasedBook?.active) {
             // book is already returned
             res.locals.message = "Book is already returned.";
             return res.redirect("/user/profile");
         }
 
         const book = await bookService.findBookById(bookId, next);
+        console.log('book', book)
         if (!book) {
             // then show error
             res.locals.message = `Book id does not exist or maybe deleted.`;
             res.redirect("/user/profile");
         }
 
-        delete purchasedBook._id;
         purchasedBook.active = false;
         // make active:false in borrowerModel
-        await borrowerService.updateBorrowerBook(userId, bookId, purchasedBook, next);
+        await borrowerService.updateBorrowerBook(userId, bookId, { active: false }, next);
 
         const date1 = new Date(purchasedBook.purchaseDate);
         const date2 = new Date();
@@ -86,8 +88,8 @@ module.exports = {
         // calculate fine
         if (diffDays <= 7) {
             try {
-            await fineService.createFine({ userId }, next);
-            } catch(e) {
+                await fineService.createFine({ userId }, next);
+            } catch (e) {
                 console.log(e.toString())
             }
             return res.redirect("/user/profile");
@@ -99,6 +101,5 @@ module.exports = {
 
         await fineService.createFine({ userId, amount: getTotalFine }, next);
         res.redirect("/user/profile");
-
     }
 }

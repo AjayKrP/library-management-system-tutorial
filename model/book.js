@@ -10,6 +10,6 @@ const book = new Schema({
     publisher: { type: String, required: true },
     quantity: { type: Number, default: 100 },
     price: { type: Number, default: 200 }
-});
+}, { timestamps: true });
 
 module.exports = mongoose.model('book', book);

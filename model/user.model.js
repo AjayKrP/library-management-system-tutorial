@@ -13,6 +13,6 @@ const user = new Schema({
         required: false,
         enum: ["STUDENT", "ADMIN", "TEACHER"]
     }
-});
+}, { timestamps: true });
 
 module.exports = mongoose.model('user', user);

@@ -2,10 +2,10 @@ module.exports = {
     findOne: async (Model, filter, options = {}, next) => {
         if (Object.keys(options)) {
             if (options?.populate) {
-                return await Model.findOne(filter).populate(options?.populate);
+                return await Model.findOne(filter, {}, { sort: { 'createdAt': -1 } }).populate(options?.populate);
             }
         }
-        return await Model.findOne(filter);
+        return await Model.findOne(filter, {}, { sort: { 'createdAt': -1 } });
     },
     findAll: async (Model, filter = {}, options = {}, next) => {
         if (Object.keys(options)) {
@@ -23,6 +23,6 @@ module.exports = {
         return await Model.remove({ filter });
     },
     update: async (Model, body, filter, next) => {
-        return await Model.findOneAndUpdate(filter, body);
+        return await Model.update(filter, {$set: body});
     }
 }
