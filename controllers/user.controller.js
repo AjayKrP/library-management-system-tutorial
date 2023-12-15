@@ -11,8 +11,9 @@ module.exports = {
     },
     getProfile: async (req, res, next) => {
         const userId = req.userId;
+        const user = await userService.findUserById(userId);
         const allPurchasedBooks = await borrowerService.findAllPurchasedBooks(userId, next);
-        res.render("pages/profile", {books: allPurchasedBooks});
+        res.render("pages/profile", { books: allPurchasedBooks, user: { name: user.name, batch: user.batch, email: user.email } });
     },
     login: async (req, res, next) => {
         const {
@@ -29,7 +30,7 @@ module.exports = {
             return res.redirect("/user/login")
         }
         const userId = user._id;
-        const token = await tokenHelper.sign({ userId: userId }, next);
+        const token = await tokenHelper.sign({ userId: userId, role: user.role }, next);
         user.token = token;
         delete user._id;
         await userService.updateUser(user, userId, next);
@@ -49,6 +50,10 @@ module.exports = {
         const hashedPassword = await bcrypt.hash(password, 10);
         req.body.password = hashedPassword;
         const newUser = await userService.createUser(req.body, next);
+        return res.redirect("/user/login");
+    },
+    logout: async (req, res, next) => {
+        res.cookie("token", "");
         return res.redirect("/user/login");
     }
 }

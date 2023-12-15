@@ -1,0 +1,10 @@
+1. Add Admin/Student in the signup form
+2. Hide Login/Signup on Login
+3. Hide Add book if current user is Student/Teacher
+4. Add role in the Jwt token and add role in the auth middleware then read it in the autorization middleware
+5. Add Logged out in the header and create controller for that
+6. Remove home from the menu and add / route to LMS
+7. Add Profile in the menu
+8. Add if condition in the purchase book so that it dont show in the Profile
+9. Add best image on homepage for library management system
+10. Display user info in profile page
